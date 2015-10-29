@@ -1,0 +1,36 @@
+#!/usr/bin/perl -w
+use strict;
+use Tk;
+require "picture.pl";
+
+my @segments = (&make_segment(&make_vect(0.00, 0.80), &make_vect(0.15, 0.65)),
+                &make_segment(&make_vect(0.15, 0.65), &make_vect(0.25, 0.70)),
+                &make_segment(&make_vect(0.25, 0.70), &make_vect(0.35, 0.80)),
+                &make_segment(&make_vect(0.35, 0.80), &make_vect(0.35, 1.00)),
+                &make_segment(&make_vect(0.65, 1.00), &make_vect(0.70, 0.80)),
+                &make_segment(&make_vect(0.70, 0.80), &make_vect(0.65, 0.70)),
+                &make_segment(&make_vect(0.65, 0.70), &make_vect(0.75, 0.70)),
+                &make_segment(&make_vect(0.75, 0.70), &make_vect(1.00, 0.40)),
+                &make_segment(&make_vect(1.00, 0.20), &make_vect(0.65, 0.45)),
+                &make_segment(&make_vect(0.65, 0.45), &make_vect(0.70, 0.00)),
+                &make_segment(&make_vect(0.65, 0.00), &make_vect(0.50, 0.20)),
+                &make_segment(&make_vect(0.50, 0.20), &make_vect(0.35, 0.00)),
+                &make_segment(&make_vect(0.25, 0.00), &make_vect(0.35, 0.55)),
+                &make_segment(&make_vect(0.35, 0.55), &make_vect(0.30, 0.60)),
+                &make_segment(&make_vect(0.30, 0.60), &make_vect(0.25, 0.50)),
+                &make_segment(&make_vect(0.25, 0.50), &make_vect(0.00, 0.40)));
+
+my $width  = 300;
+my $height = 300;
+my $top = MainWindow->new();
+my $canvas = $top->Canvas(width => $width, height => $height);
+
+my $frame = &make_frame(&make_vect(0, 0),
+		                &make_vect($width, 0),
+						&make_vect(0, $height));
+my $painter = &segments_painter($canvas, @segments);
+my $func = &square_limit($painter, 4);
+&$func($frame);
+
+$canvas->pack();
+MainLoop();

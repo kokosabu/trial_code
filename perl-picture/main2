@@ -1,0 +1,21 @@
+#!/usr/bin/perl -w
+use strict;
+use Tk;
+require "picture.pl";
+
+my $width  = 360;
+my $height = 360;
+my $top = MainWindow->new();
+my $canvas = $top->Canvas(width => $width, height => $height);
+my $image= $top->Photo( -file => 'ch2-Z-G-30.gif');
+print $image->width, ":", $image->height, "\n";
+
+my $frame = &make_frame(&make_vect(0, 0),
+		                &make_vect($width, 0),
+						&make_vect(0, $height));
+my $painter = &picture_painter_2($canvas, $image_file);
+my $func = &corner_split($painter, 4);
+&$func($frame);
+
+$canvas->pack();
+MainLoop();
